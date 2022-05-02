@@ -1,0 +1,52 @@
+#!/bin/python3
+
+import RPi.GPIO as GPIO
+import time
+import sys
+import os
+Trg = 22 #touch sensor pin number
+MOT = 23
+LED = 21
+SND = 17
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(Trg,GPIO.IN,pull_up_down=GPIO.PUD_UP)
+GPIO.setup(MOT, GPIO.IN) #pin from sensor GPIO that takes input
+GPIO.setup(LED, GPIO.OUT) #pin light is on
+GPIO.setup(SND, GPIO.IN)
+# ctrl + c to quit loop
+
+# white = ground
+# blue/green = GPIO
+# red = power
+global touchstatus
+touchstatus = False  #sets touchstatus to default false
+
+while True:#Detection loop
+
+    #make sure that the on check is first.
+
+    i = GPIO.input(MOT) # motion sensor pin
+    if i == 1: #high output from sensor
+        print("Motion detected.", i)
+        if GPIO.input(SND): #sound sensor
+            print("SOUND DETECTED")
+        else:
+            print("No Sound Detected")
+        if (GPIO.input(Trg)==True): #if touch sensor activates code exits
+          GPIO.cleanup
+          sys.exit()
+        GPIO.output(LED, 1) #light on
+        time.sleep(0.5)
+    
+    elif i == 0: #low output from sensor
+        print("No motion detected.", i)
+        if GPIO.input(SND): #sound sensor
+            print("SOUND DETECTED")
+        else:
+            print("No Sound Detected")
+        GPIO.output(LED, 0) #light off
+        if (GPIO.input(Trg)==True): 
+          GPIO.cleanup
+          sys.exit()
+        time.sleep(0.5)
