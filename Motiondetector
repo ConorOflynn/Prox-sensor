@@ -6,15 +6,15 @@ import sys
 import os
 Trg = 22 #touch sensor pin number
 MOT = 23 # motion sensor
-LED = 21
+BUZ = 27 #buzzer
 SND = 17 # sound sensor
 BTN = 16
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(Trg,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 GPIO.setup(MOT, GPIO.IN) #pin from sensor GPIO that takes input
-GPIO.setup(LED, GPIO.OUT) #pin light is on
 GPIO.setup(SND, GPIO.IN)
+GPIO.setup(BUZ, GPIO.OUT)
 # ctrl + c to quit loop
 
 # white = ground
