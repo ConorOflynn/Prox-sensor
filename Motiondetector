@@ -5,9 +5,9 @@ import time
 import sys
 import os
 Trg = 22 #touch sensor pin number
-MOT = 23
+MOT = 23 # motion sensor
 LED = 21
-SND = 17
+SND = 17 # sound sensor
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(Trg,GPIO.IN,pull_up_down=GPIO.PUD_UP)
