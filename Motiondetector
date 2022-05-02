@@ -8,6 +8,7 @@ Trg = 22 #touch sensor pin number
 MOT = 23 # motion sensor
 LED = 21
 SND = 17 # sound sensor
+BTN = 16
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(Trg,GPIO.IN,pull_up_down=GPIO.PUD_UP)
