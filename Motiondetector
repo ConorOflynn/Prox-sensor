@@ -37,8 +37,6 @@ while True:#Detection loop
         if (GPIO.input(Trg)==True): #if touch sensor activates code exits
           GPIO.cleanup
           sys.exit()
-        GPIO.output(LED, 1) #light on
-        time.sleep(0.5)
     
     elif i == 0: #low output from sensor
         print("No motion detected.", i)
@@ -46,7 +44,6 @@ while True:#Detection loop
             print("SOUND DETECTED")
         else:
             print("No Sound Detected")
-        GPIO.output(LED, 0) #light off
         if (GPIO.input(Trg)==True): 
           GPIO.cleanup
           sys.exit()
