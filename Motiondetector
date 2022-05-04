@@ -4,10 +4,10 @@ import RPi.GPIO as GPIO
 import time
 import sys
 import os
-Trg = 22 #touch sensor pin number
+Trg = 17 #touch sensor pin number
 MOT = 23 # motion sensor
 BUZ = 27 #buzzer
-SND = 17 # sound sensor
+SND = 6 # sound sensor
 BTN = 16
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -15,6 +15,7 @@ GPIO.setup(Trg,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 GPIO.setup(MOT, GPIO.IN) #pin from sensor GPIO that takes input
 GPIO.setup(SND, GPIO.IN)
 GPIO.setup(BUZ, GPIO.OUT)
+GPIO.setup(BTN, GPIO.IN)
 # ctrl + c to quit loop
 
 # white = ground
@@ -22,32 +23,27 @@ GPIO.setup(BUZ, GPIO.OUT)
 # red = power
 global touchstatus
 touchstatus = False  #sets touchstatus to default false
+            #make sure that the on check is first.
 
-while True:#Detection loop
-
-    #make sure that the on check is first.
-
+while True:  #Detection loop
     i = GPIO.input(MOT) # motion sensor pin
-    if i == 1: #high output from sensor
-        print("Motion detected.", i)
-        if GPIO.input(SND): #sound sensor
-            print("SOUND DETECTED")
-        else:
-            print("No Sound Detected")
-        if (GPIO.input(Trg)==True): #if touch sensor activates code exits
-          GPIO.cleanup
-          sys.exit()
-        GPIO.output(LED, 1) #light on
-        time.sleep(0.5)
+    GPIO.output(BUZ, GPIO.HIGH)
+    if (i == 1 and GPIO.input(SND)):
+        GPIO.output(BUZ, GPIO.LOW)
+        time.sleep(5)
     
-    elif i == 0: #low output from sensor
-        print("No motion detected.", i)
-        if GPIO.input(SND): #sound sensor
-            print("SOUND DETECTED")
-        else:
-            print("No Sound Detected")
-        GPIO.output(LED, 0) #light off
-        if (GPIO.input(Trg)==True): 
-          GPIO.cleanup
-          sys.exit()
-        time.sleep(0.5)
+    
+   
+    #  elif i == 1: #high output from sensor
+    #     print("Motion detected.")
+    #     time.sleep(0.5)
+    
+    # elif GPIO.input(SND): #sound sensor
+    #         print("SOUND DETECTED")
+    #         time.sleep(0.5)
+        
+
+    if (GPIO.input(Trg)==True):
+        GPIO.output(BUZ,GPIO.HIGH)
+        GPIO.cleanup
+        sys.exit()
